@@ -20,6 +20,14 @@ With `podman-mcp` you can manage containers and images through natural language 
 
 ## Installation
 
+### Using pip (recommended)
+
+```bash
+pip install podman-mcp
+```
+
+### From source
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/edtroleis/podman-mcp.git
@@ -39,8 +47,16 @@ pip install -r requirements.txt
 
 ### Claude Code
 
+If installed via pip:
+
 ```bash
-claude mcp add --scope user podman-mcp -- /absolute/path/to/podman-mcp/.venv/bin/python3 /absolute/path/to/podman-mcp/server.py
+claude mcp add --scope user podman-mcp -- podman-mcp
+```
+
+If installed from source:
+
+```bash
+claude mcp add --scope user podman-mcp -- /absolute/path/to/podman-mcp/.venv/bin/podman-mcp
 ```
 
 The `--scope user` flag makes the server available across all projects, not just the current directory.
@@ -69,15 +85,29 @@ By default, Claude asks for confirmation before calling each tool. To allow all 
 
 ### GitHub Copilot (VS Code)
 
-Create `.vscode/mcp.json` in your workspace:
+Create `.vscode/mcp.json` in your workspace.
+
+If installed via pip:
 
 ```json
 {
   "servers": {
     "podman-mcp": {
       "type": "stdio",
-      "command": "/absolute/path/to/podman-mcp/.venv/bin/python3",
-      "args": ["/absolute/path/to/podman-mcp/server.py"]
+      "command": "podman-mcp"
+    }
+  }
+}
+```
+
+If installed from source:
+
+```json
+{
+  "servers": {
+    "podman-mcp": {
+      "type": "stdio",
+      "command": "/absolute/path/to/podman-mcp/.venv/bin/podman-mcp"
     }
   }
 }
@@ -89,14 +119,27 @@ Requires VS Code 1.99+ with GitHub Copilot agent mode enabled.
 
 ### Cursor
 
-Create or edit `~/.cursor/mcp.json`:
+Create or edit `~/.cursor/mcp.json`.
+
+If installed via pip:
 
 ```json
 {
   "mcpServers": {
     "podman-mcp": {
-      "command": "/absolute/path/to/podman-mcp/.venv/bin/python3",
-      "args": ["/absolute/path/to/podman-mcp/server.py"]
+      "command": "podman-mcp"
+    }
+  }
+}
+```
+
+If installed from source:
+
+```json
+{
+  "mcpServers": {
+    "podman-mcp": {
+      "command": "/absolute/path/to/podman-mcp/.venv/bin/podman-mcp"
     }
   }
 }
@@ -106,14 +149,27 @@ Create or edit `~/.cursor/mcp.json`:
 
 ### Windsurf
 
-Create or edit `~/.codeium/windsurf/mcp_config.json`:
+Create or edit `~/.codeium/windsurf/mcp_config.json`.
+
+If installed via pip:
 
 ```json
 {
   "mcpServers": {
     "podman-mcp": {
-      "command": "/absolute/path/to/podman-mcp/.venv/bin/python3",
-      "args": ["/absolute/path/to/podman-mcp/server.py"]
+      "command": "podman-mcp"
+    }
+  }
+}
+```
+
+If installed from source:
+
+```json
+{
+  "mcpServers": {
+    "podman-mcp": {
+      "command": "/absolute/path/to/podman-mcp/.venv/bin/podman-mcp"
     }
   }
 }
@@ -123,10 +179,18 @@ Create or edit `~/.codeium/windsurf/mcp_config.json`:
 
 ### ChatGPT and other HTTP clients
 
-Start the server in SSE mode:
+Start the server in SSE mode.
+
+If installed via pip:
 
 ```bash
-python3 server.py --transport sse --host 127.0.0.1 --port 8000
+podman-mcp --transport sse --host 127.0.0.1 --port 8000
+```
+
+If installed from source:
+
+```bash
+/absolute/path/to/podman-mcp/.venv/bin/podman-mcp --transport sse --host 127.0.0.1 --port 8000
 ```
 
 The MCP endpoint will be available at:

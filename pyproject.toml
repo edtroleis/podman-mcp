@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "podman-mcp"
+version = "0.1.0"
+description = "MCP server that exposes Podman container management as tools for AI assistants"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+podman-mcp = "podman_mcp.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["podman_mcp*"]
