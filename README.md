@@ -51,6 +51,20 @@ Verify:
 claude mcp list
 ```
 
+#### Skip confirmation prompts (user scope)
+
+By default, Claude asks for confirmation before calling each tool. To allow all podman-mcp tools to run without prompts across all projects, add the following to `~/.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "mcp__podman-mcp__*"
+    ]
+  }
+}
+```
+
 ---
 
 ### GitHub Copilot (VS Code)
@@ -125,6 +139,54 @@ Configure your client to connect to that URL as a remote MCP server.
 
 ---
 
+## Using from the Terminal
+
+You can interact with podman-mcp directly from your Linux console using the Claude Code CLI — no IDE required.
+
+### Claude Code CLI
+
+Once podman-mcp is registered with `--scope user`, start an interactive session:
+
+```bash
+claude
+```
+
+Then ask naturally:
+
+```
+How many images do I have locally?
+```
+```
+Pull nginx:latest.
+```
+```
+Show logs from my nexus container.
+```
+```
+List all running containers.
+```
+```
+Remove the alpine image.
+```
+
+Claude will automatically use the podman-mcp tools to answer.
+
+### Other AI CLIs (HTTP mode)
+
+For AI tools that support remote MCP over HTTP, start the server in SSE mode first:
+
+```bash
+python3 /absolute/path/to/podman-mcp/server.py --transport sse --host 127.0.0.1 --port 8000
+```
+
+Then point your AI CLI client to:
+
+```
+http://127.0.0.1:8000/sse
+```
+
+---
+
 ## Available Tools
 
 ### Images
@@ -187,21 +249,95 @@ Configure your client to connect to that URL as a remote MCP server.
 
 ## Usage Examples
 
-Once registered, ask Claude naturally:
+Once registered, interact with Podman using natural language. Examples by category:
+
+### Images
 
 ```
 How many images do I have locally?
-Show me all containers, including stopped ones.
-Pull the alpine:latest image.
-Run nginx on port 8080 in detached mode.
-Show me the last 200 log lines from the api container.
-What is the IP address of the db container?
-Remove all stopped containers.
+```
+```
+Pull the python:3.12-slim image from Docker Hub.
+```
+```
 Build an image tagged myapp:latest from the Dockerfile in the current directory.
-Tag myapp:latest as localhost:8082/myapp:1.0 and push it.
-List all networks and volumes.
-Create a pod called my-pod.
+```
+```
+Show the layer history of the debian:latest image.
+```
+```
+Tag myapp:latest as localhost:8082/myapp:1.0.
+```
+```
+Push localhost:8082/myapp:1.0 to the registry.
+```
+```
+Remove the alpine image.
+```
+
+### Containers
+
+```
+List all running containers.
+```
+```
+Show me all containers, including stopped ones.
+```
+```
+Run nginx in detached mode, exposing port 8080 on the host.
+```
+```
+Show the last 200 log lines from the api container.
+```
+```
+What is the IP address of the db container?
+```
+```
 Show CPU and memory usage for all running containers.
+```
+```
+Execute the command "df -h" inside the api container.
+```
+```
+Remove all stopped containers.
+```
+
+### Networks & Volumes
+
+```
+List all networks.
+```
+```
+Create a network called backend-net.
+```
+```
+List all volumes.
+```
+```
+Create a volume called postgres-data.
+```
+```
+Remove the volume named postgres-data.
+```
+
+### Pods
+
+```
+List all pods, including stopped ones.
+```
+```
+Create a pod called my-pod.
+```
+```
+Remove the pod my-pod and all its containers.
+```
+
+### System & Registry
+
+```
+Show Podman disk usage and system stats.
+```
+```
 Login to localhost:8082 with my credentials.
 ```
 
@@ -231,7 +367,7 @@ def your_tool_name(param: str) -> str:
     return run(f"<podman subcommand> {param}")
 ```
 
-No re-registration is needed. Restart your Claude Code session to pick up the new tool.
+No re-registration is needed. Restart your AI client session to pick up the new tool.
 
 ---
 
