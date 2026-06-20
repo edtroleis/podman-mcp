@@ -157,16 +157,16 @@ Then ask naturally:
 How many images do I have locally?
 ```
 ```
-Pull nginx:latest.
+Pull nginx:latest
 ```
 ```
-Show logs from my nexus container.
+Show logs from my nexus container
 ```
 ```
-List all running containers.
+List all running containers
 ```
 ```
-Remove the alpine image.
+Remove the alpine image
 ```
 
 Claude will automatically use the podman-mcp tools to answer.
@@ -257,88 +257,88 @@ Once registered, interact with Podman using natural language. Examples by catego
 How many images do I have locally?
 ```
 ```
-Pull the python:3.12-slim image from Docker Hub.
+Pull the python:3.12-slim image from Docker Hub
 ```
 ```
-Build an image tagged myapp:latest from the Dockerfile in the current directory.
+Build an image tagged myapp:latest from the Dockerfile in the current directory
 ```
 ```
-Show the layer history of the debian:latest image.
+Show the layer history of the debian:latest image
 ```
 ```
-Tag myapp:latest as localhost:8082/myapp:1.0.
+Tag myapp:latest as localhost:8082/myapp:1.0
 ```
 ```
-Push localhost:8082/myapp:1.0 to the registry.
+Push localhost:8082/myapp:1.0 to the registry
 ```
 ```
-Remove the alpine image.
+Remove the alpine image
 ```
 
 ### Containers
 
 ```
-List all running containers.
+List all running containers
 ```
 ```
-Show me all containers, including stopped ones.
+Show me all containers, including stopped ones
 ```
 ```
-Run nginx in detached mode, exposing port 8080 on the host.
+Run nginx in detached mode, exposing port 8080 on the host
 ```
 ```
-Show the last 200 log lines from the api container.
+Show the last 200 log lines from the api container
 ```
 ```
 What is the IP address of the db container?
 ```
 ```
-Show CPU and memory usage for all running containers.
+Show CPU and memory usage for all running containers
 ```
 ```
-Execute the command "df -h" inside the api container.
+Execute the command "df -h" inside the api container
 ```
 ```
-Remove all stopped containers.
+Remove all stopped containers
 ```
 
 ### Networks & Volumes
 
 ```
-List all networks.
+List all networks
 ```
 ```
-Create a network called backend-net.
+Create a network called backend-net
 ```
 ```
-List all volumes.
+List all volumes
 ```
 ```
-Create a volume called postgres-data.
+Create a volume called postgres-data
 ```
 ```
-Remove the volume named postgres-data.
+Remove the volume named postgres-data
 ```
 
 ### Pods
 
 ```
-List all pods, including stopped ones.
+List all pods, including stopped ones
 ```
 ```
-Create a pod called my-pod.
+Create a pod called my-pod
 ```
 ```
-Remove the pod my-pod and all its containers.
+Remove the pod my-pod and all its containers
 ```
 
 ### System & Registry
 
 ```
-Show Podman disk usage and system stats.
+Show Podman disk usage and system stats
 ```
 ```
-Login to localhost:8082 with my credentials.
+Login to localhost:8082 with my credentials
 ```
 
 ---
