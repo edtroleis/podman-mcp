@@ -1,6 +1,6 @@
 # podman-mcp
 
-A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that exposes [Podman](https://podman.io) container management as tools for AI assistants such as [Claude](https://claude.ai).
+A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that exposes [Podman](https://podman.io) container management as tools for AI assistants such as [Claude](https://claude.ai), [GitHub Copilot](https://github.com/features/copilot), [ChatGPT](https://chatgpt.com), [Cursor](https://www.cursor.com) and [Windsurf](https://windsurf.com).
 
 With `podman-mcp` you can manage containers and images through natural language — no need to remember CLI flags.
 
@@ -22,7 +22,7 @@ With `podman-mcp` you can manage containers and images through natural language 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/podman-mcp.git
+git clone https://github.com/edtroleis/podman-mcp.git
 cd podman-mcp
 
 # 2. Create and activate a virtual environment
@@ -40,8 +40,10 @@ pip install -r requirements.txt
 ### Claude Code
 
 ```bash
-claude mcp add podman-mcp -- /absolute/path/to/podman-mcp/.venv/bin/python3 /absolute/path/to/podman-mcp/server.py
+claude mcp add --scope user podman-mcp -- /absolute/path/to/podman-mcp/.venv/bin/python3 /absolute/path/to/podman-mcp/server.py
 ```
+
+The `--scope user` flag makes the server available across all projects, not just the current directory.
 
 Verify:
 
