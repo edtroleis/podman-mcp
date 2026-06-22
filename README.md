@@ -115,6 +115,8 @@ If installed from source:
 
 Requires VS Code 1.99+ with GitHub Copilot agent mode enabled.
 
+> **Note:** VS Code does not auto-start MCP servers. After opening Copilot Chat, click the **Start** button next to `podman-mcp` in the Tools section once per VS Code session. This is a VS Code security design decision and cannot be configured away.
+
 ---
 
 ### Cursor
