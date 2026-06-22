@@ -1,9 +1,10 @@
-name: Publish to PyPI
+name: CI
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - "**"
+  pull_request:
 
 jobs:
   test:
@@ -22,11 +23,8 @@ jobs:
       - name: Run tests
         run: pytest tests/ -v
 
-  publish:
+  build:
     runs-on: ubuntu-latest
-    environment: pypi
-    permissions:
-      id-token: write
     needs: test
 
     steps:
@@ -41,6 +39,3 @@ jobs:
 
       - name: Build package
         run: python -m build
-
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1

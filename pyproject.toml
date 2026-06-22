@@ -16,6 +16,9 @@ dependencies = [
 [project.scripts]
 podman-mcp = "podman_mcp.server:main"
 
+[project.optional-dependencies]
+dev = ["pytest"]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["podman_mcp*"]
