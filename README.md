@@ -1,5 +1,15 @@
 # podman-mcp
 
+[![PyPI version](https://img.shields.io/pypi/v/podman-mcp)](https://pypi.org/project/podman-mcp)
+[![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Podman](https://img.shields.io/badge/Podman-892CA0?logo=podman&logoColor=white)](https://podman.io)
+[![Claude](https://img.shields.io/badge/Claude-D97706?logo=anthropic&logoColor=white)](https://claude.ai)
+[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000000?logo=github&logoColor=white)](https://github.com/features/copilot)
+[![ChatGPT](https://img.shields.io/badge/ChatGPT-74aa9c?logo=openai&logoColor=white)](https://chatgpt.com)
+[![Cursor](https://img.shields.io/badge/Cursor-000000?logo=cursor&logoColor=white)](https://www.cursor.com)
+[![Windsurf](https://img.shields.io/badge/Windsurf-0098FF?logo=codeium&logoColor=white)](https://windsurf.com)
+
 A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that exposes [Podman](https://podman.io) container management as tools for AI assistants such as [Claude](https://claude.ai), [GitHub Copilot](https://github.com/features/copilot), [ChatGPT](https://chatgpt.com), [Cursor](https://www.cursor.com) and [Windsurf](https://windsurf.com).
 
 With `podman-mcp` you can manage containers and images through natural language — no need to remember CLI flags.
@@ -14,7 +24,7 @@ With `podman-mcp` you can manage containers and images through natural language 
 
 - Python 3.10+
 - [Podman](https://podman.io/docs/installation) installed and available in `$PATH`
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI **or** any MCP-compatible client
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI, [GitHub Copilot](https://github.com/features/copilot), [Cursor](https://www.cursor.com), [Windsurf](https://windsurf.com), [ChatGPT](https://chatgpt.com) or any MCP-compatible client
 
 ---
 
