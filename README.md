@@ -20,6 +20,23 @@ With `podman-mcp` you can manage containers and images through natural language 
 
 ---
 
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Client Configuration](#client-configuration)
+- [Using from the Terminal](#using-from-the-terminal)
+- [Available Tools](#available-tools)
+- [Usage Examples](#usage-examples)
+- [Project Structure](#project-structure)
+- [Testing](#testing)
+- [Adding New Tools](#adding-new-tools)
+- [Releasing a New Version](#releasing-a-new-version)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
 ## Requirements
 
 - Python 3.10+
@@ -39,15 +56,12 @@ pip install podman-mcp
 ### From source
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/edtroleis/podman-mcp.git
 cd podman-mcp
 
-# 2. Create and activate a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
 
-# 3. Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -57,19 +71,19 @@ pip install -r requirements.txt
 
 ### Claude Code
 
-If installed via pip:
+**Via pip:**
 
 ```bash
 claude mcp add --scope user podman-mcp -- podman-mcp
 ```
 
-If installed from source:
+**From source:**
 
 ```bash
 claude mcp add --scope user podman-mcp -- /absolute/path/to/podman-mcp/.venv/bin/podman-mcp
 ```
 
-The `--scope user` flag makes the server available across all projects, not just the current directory.
+The `--scope user` flag makes the server available across all projects.
 
 Verify:
 
@@ -77,9 +91,9 @@ Verify:
 claude mcp list
 ```
 
-#### Skip confirmation prompts (user scope)
+#### Skip confirmation prompts
 
-By default, Claude asks for confirmation before calling each tool. To allow all podman-mcp tools to run without prompts across all projects, add the following to `~/.claude/settings.json`:
+By default, Claude asks for confirmation before calling each tool. To allow all podman-mcp tools to run without prompts, add the following to `~/.claude/settings.json`:
 
 ```json
 {
@@ -95,9 +109,9 @@ By default, Claude asks for confirmation before calling each tool. To allow all 
 
 ### GitHub Copilot (VS Code)
 
-Create `.vscode/mcp.json` in your workspace.
+Create or edit `.vscode/mcp.json` in your workspace.
 
-If installed via pip:
+**Via pip:**
 
 ```json
 {
@@ -110,7 +124,7 @@ If installed via pip:
 }
 ```
 
-If installed from source:
+**From source:**
 
 ```json
 {
@@ -133,7 +147,7 @@ Requires VS Code 1.99+ with GitHub Copilot agent mode enabled.
 
 Create or edit `~/.cursor/mcp.json`.
 
-If installed via pip:
+**Via pip:**
 
 ```json
 {
@@ -145,7 +159,7 @@ If installed via pip:
 }
 ```
 
-If installed from source:
+**From source:**
 
 ```json
 {
@@ -163,7 +177,7 @@ If installed from source:
 
 Create or edit `~/.codeium/windsurf/mcp_config.json`.
 
-If installed via pip:
+**Via pip:**
 
 ```json
 {
@@ -175,7 +189,7 @@ If installed via pip:
 }
 ```
 
-If installed from source:
+**From source:**
 
 ```json
 {
@@ -191,15 +205,15 @@ If installed from source:
 
 ### ChatGPT and other HTTP clients
 
-Start the server in SSE mode.
+Start the server in SSE mode:
 
-If installed via pip:
+**Via pip:**
 
 ```bash
 podman-mcp --transport sse --host 127.0.0.1 --port 8000
 ```
 
-If installed from source:
+**From source:**
 
 ```bash
 /absolute/path/to/podman-mcp/.venv/bin/podman-mcp --transport sse --host 127.0.0.1 --port 8000
@@ -217,7 +231,7 @@ Configure your client to connect to that URL as a remote MCP server.
 
 ## Using from the Terminal
 
-You can interact with podman-mcp directly from your Linux console using the Claude Code CLI — no IDE required.
+You can interact with podman-mcp directly from the terminal using the Claude Code CLI — no IDE required.
 
 ### Claude Code CLI
 
@@ -231,35 +245,21 @@ Then ask naturally:
 
 ```
 How many images do I have locally?
-```
-```
 Pull nginx:latest
-```
-```
-Show logs from my nexus container
-```
-```
+Show logs from my api container
 List all running containers
-```
-```
 Remove the alpine image
 ```
-
-Claude will automatically use the podman-mcp tools to answer.
 
 ### Other AI CLIs (HTTP mode)
 
 For AI tools that support remote MCP over HTTP, start the server in SSE mode first:
 
 ```bash
-python3 /absolute/path/to/podman-mcp/server.py --transport sse --host 127.0.0.1 --port 8000
+podman-mcp --transport sse --host 127.0.0.1 --port 8000
 ```
 
-Then point your AI CLI client to:
-
-```
-http://127.0.0.1:8000/sse
-```
+Then point your AI CLI client to `http://127.0.0.1:8000/sse`.
 
 ---
 
@@ -392,6 +392,12 @@ Tag myapp:latest as localhost:8082/myapp:1.0
 Push localhost:8082/myapp:1.0 to the registry
 ```
 ```
+Search for postgres images in Docker Hub
+```
+```
+Save the myapp:latest image to /tmp/myapp.tar
+```
+```
 Remove the alpine image
 ```
 
@@ -407,6 +413,12 @@ Show me all containers, including stopped ones
 Run nginx in detached mode, exposing port 8080 on the host
 ```
 ```
+Start the stopped api container
+```
+```
+Restart the db container
+```
+```
 Show the last 200 log lines from the api container
 ```
 ```
@@ -419,10 +431,13 @@ Show CPU and memory usage for all running containers
 Execute the command "df -h" inside the api container
 ```
 ```
+Show all port mappings of the web container
+```
+```
 Remove all stopped containers
 ```
 
-### Networks & Volumes
+### Networks
 
 ```
 List all networks
@@ -431,13 +446,22 @@ List all networks
 Create a network called backend-net
 ```
 ```
+Connect the api container to the backend-net network
+```
+```
+Remove unused networks
+```
+
+### Volumes
+
+```
 List all volumes
 ```
 ```
 Create a volume called postgres-data
 ```
 ```
-Remove the volume named postgres-data
+Remove unused volumes
 ```
 
 ### Pods
@@ -449,13 +473,58 @@ List all pods, including stopped ones
 Create a pod called my-pod
 ```
 ```
-Remove the pod my-pod and all its containers
+Start the my-pod pod
+```
+```
+Stop the my-pod pod
+```
+```
+Remove the my-pod pod and all its containers
+```
+```
+Show resource usage for all pods
+```
+
+### Secrets
+
+```
+List all secrets
+```
+```
+Create a secret called db-password with value s3cr3t
+```
+```
+Show metadata for the db-password secret
+```
+```
+Remove the db-password secret
+```
+
+### Generate
+
+```
+Generate Kubernetes YAML for the my-pod pod
+```
+```
+Generate a systemd unit file for the api container
 ```
 
 ### System & Registry
 
 ```
 Show Podman disk usage and system stats
+```
+```
+Show detailed Podman host information
+```
+```
+Show the Podman version
+```
+```
+Show recent container start events from the last hour
+```
+```
+Remove all unused containers, images, networks and volumes
 ```
 ```
 Login to localhost:8082 with my credentials
@@ -467,18 +536,45 @@ Login to localhost:8082 with my credentials
 
 ```
 podman-mcp/
-├── server.py          # MCP server — all tools are defined here
-├── requirements.txt   # Python dependencies
-├── CONTRIBUTING.md    # How to contribute
-├── LICENSE            # MIT License
+├── .github/
+│   └── workflows/
+│       └── publish.yml    # GitHub Actions — publishes to PyPI on tag push
+├── podman_mcp/
+│   ├── __init__.py
+│   └── server.py          # MCP server — all tools are defined here
+├── tests/
+│   └── test_server.py     # pytest test suite
+├── pyproject.toml         # Project metadata and build config
+├── requirements.txt       # Runtime dependencies
+├── CONTRIBUTING.md        # How to contribute
+├── LICENSE                # MIT License
 └── README.md
+```
+
+---
+
+## Testing
+
+Tests use [pytest](https://docs.pytest.org) and mock `subprocess.run` so no Podman installation is required to run them.
+
+Install dev dependencies and run the suite:
+
+```bash
+pip install -e ".[dev]"
+pytest tests/
+```
+
+Run with verbose output:
+
+```bash
+pytest tests/ -v
 ```
 
 ---
 
 ## Adding New Tools
 
-Open [server.py](server.py) and add a new function decorated with `@mcp.tool()`:
+Open [podman_mcp/server.py](podman_mcp/server.py) and add a new function decorated with `@mcp.tool()`:
 
 ```python
 @mcp.tool()
@@ -515,9 +611,22 @@ git tag v1.2.3
 git push origin v1.2.3
 ```
 
-The [GitHub Actions workflow](.github/workflows/publish.yml) will build and publish the new version to PyPI automatically.
+The [GitHub Actions workflow](.github/workflows/publish.yml) will run tests, publish to PyPI and create a GitHub Release automatically.
 
 > **Note:** PyPI does not allow re-uploading the same version. Always bump the version before tagging.
+
+### Release Notes
+
+Release notes are generated automatically from commits and PRs merged since the last tag, grouped by label:
+
+| Label | Section |
+|---|---|
+| `enhancement`, `feature` | New Features |
+| `bug`, `fix` | Bug Fixes |
+| `documentation`, `docs` | Documentation |
+| anything else | Other Changes |
+
+No conventional commit format required — just label your PRs on GitHub before merging.
 
 ---
 
