@@ -178,6 +178,236 @@ def login_registry(registry: str, username: str, password: str) -> str:
     return run(f"login {registry} -u {username} -p {password}")
 
 
+# Containers
+
+@mcp.tool()
+def start_container(name: str) -> str:
+    """Start a stopped container by name or ID."""
+    return run(f"start {name}")
+
+
+@mcp.tool()
+def restart_container(name: str) -> str:
+    """Restart a running or stopped container by name or ID."""
+    return run(f"restart {name}")
+
+
+@mcp.tool()
+def pause_container(name: str) -> str:
+    """Pause all processes in a running container."""
+    return run(f"pause {name}")
+
+
+@mcp.tool()
+def unpause_container(name: str) -> str:
+    """Resume a paused container."""
+    return run(f"unpause {name}")
+
+
+@mcp.tool()
+def rename_container(name: str, new_name: str) -> str:
+    """Rename a container."""
+    return run(f"rename {name} {new_name}")
+
+
+@mcp.tool()
+def copy_to_container(src: str, dest: str) -> str:
+    """Copy files between host and container. Use 'container:path' format for the container side. Example: src='./file.txt', dest='mycontainer:/tmp/file.txt'"""
+    return run(f"cp {src} {dest}")
+
+
+@mcp.tool()
+def container_top(name: str) -> str:
+    """Show running processes inside a container."""
+    return run(f"top {name}")
+
+
+@mcp.tool()
+def container_port(name: str) -> str:
+    """List port mappings of a container."""
+    return run(f"port {name}")
+
+
+@mcp.tool()
+def container_diff(name: str) -> str:
+    """Show filesystem changes made inside a container since it was started."""
+    return run(f"diff {name}")
+
+
+# Images
+
+@mcp.tool()
+def search_image(term: str) -> str:
+    """Search for images in registries. Example: term='nginx'"""
+    return run(f"search {term}")
+
+
+@mcp.tool()
+def save_image(image: str, output: str) -> str:
+    """Save an image to a tar archive. Example: image='myapp:latest', output='/tmp/myapp.tar'"""
+    return run(f"save -o {output} {image}")
+
+
+@mcp.tool()
+def load_image(path: str) -> str:
+    """Load an image from a tar archive. Example: path='/tmp/myapp.tar'"""
+    return run(f"load -i {path}")
+
+
+@mcp.tool()
+def prune_images(all: bool = False) -> str:
+    """Remove unused images. Set all=true to also remove images not referenced by any container."""
+    flag = "-a" if all else ""
+    return run(f"image prune -f {flag}")
+
+
+# Networks
+
+@mcp.tool()
+def network_inspect(name: str) -> str:
+    """Inspect a network and return its configuration."""
+    return run(f"network inspect {name}")
+
+
+@mcp.tool()
+def network_connect(network: str, container: str) -> str:
+    """Connect a container to a network."""
+    return run(f"network connect {network} {container}")
+
+
+@mcp.tool()
+def network_disconnect(network: str, container: str) -> str:
+    """Disconnect a container from a network."""
+    return run(f"network disconnect {network} {container}")
+
+
+@mcp.tool()
+def network_prune() -> str:
+    """Remove all unused networks."""
+    return run("network prune -f")
+
+
+# Volumes
+
+@mcp.tool()
+def volume_inspect(name: str) -> str:
+    """Inspect a volume and return its configuration."""
+    return run(f"volume inspect {name}")
+
+
+@mcp.tool()
+def volume_prune() -> str:
+    """Remove all unused volumes."""
+    return run("volume prune -f")
+
+
+# Pods
+
+@mcp.tool()
+def pod_start(name: str) -> str:
+    """Start a pod and all its containers."""
+    return run(f"pod start {name}")
+
+
+@mcp.tool()
+def pod_stop(name: str) -> str:
+    """Stop a pod and all its containers."""
+    return run(f"pod stop {name}")
+
+
+@mcp.tool()
+def pod_restart(name: str) -> str:
+    """Restart a pod and all its containers."""
+    return run(f"pod restart {name}")
+
+
+@mcp.tool()
+def pod_inspect(name: str) -> str:
+    """Inspect a pod and return its configuration details."""
+    return run(f"pod inspect {name}")
+
+
+@mcp.tool()
+def pod_stats(name: str = "") -> str:
+    """Show resource usage stats for pods. Leave name empty for all pods."""
+    target = name if name else "--all"
+    return run(f"pod stats --no-stream {target}")
+
+
+# System
+
+@mcp.tool()
+def system_prune(all: bool = False) -> str:
+    """Remove all unused containers, images, networks and volumes. Set all=true to also remove unused images."""
+    flag = "-a" if all else ""
+    return run(f"system prune -f {flag}")
+
+
+@mcp.tool()
+def podman_version() -> str:
+    """Show Podman version information."""
+    return run("version")
+
+
+@mcp.tool()
+def podman_info() -> str:
+    """Show detailed Podman host and runtime information."""
+    return run("info")
+
+
+@mcp.tool()
+def system_events(since: str = "", until: str = "", filter: str = "") -> str:
+    """Show recent Podman events. Example: since='1h', filter='event=start'"""
+    args = "--stream=false"
+    if since:
+        args += f" --since {since}"
+    if until:
+        args += f" --until {until}"
+    if filter:
+        args += f" --filter {filter}"
+    return run(f"events {args}")
+
+
+# Secrets
+
+@mcp.tool()
+def secret_list() -> str:
+    """List all Podman secrets."""
+    return run("secret ls")
+
+
+@mcp.tool()
+def secret_create(name: str, value: str) -> str:
+    """Create a secret from a literal value. Example: name='db-password', value='s3cr3t'"""
+    return run(f"secret create {name} - <<< '{value}'")
+
+
+@mcp.tool()
+def secret_remove(name: str) -> str:
+    """Remove a secret by name or ID."""
+    return run(f"secret rm {name}")
+
+
+@mcp.tool()
+def secret_inspect(name: str) -> str:
+    """Inspect a secret and return its metadata (value is never revealed)."""
+    return run(f"secret inspect {name}")
+
+
+# Generate
+
+@mcp.tool()
+def generate_kube(name: str) -> str:
+    """Generate Kubernetes YAML from a pod or container. Example: name='mypod'"""
+    return run(f"generate kube {name}")
+
+
+@mcp.tool()
+def generate_systemd(name: str) -> str:
+    """Generate systemd unit file for a container or pod. Example: name='mycontainer'"""
+    return run(f"generate systemd --new {name}")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--transport", choices=["stdio", "sse"], default="stdio")

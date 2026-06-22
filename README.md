@@ -276,6 +276,10 @@ http://127.0.0.1:8000/sse
 | `tag_image` | Tag an image with a new name | `source: str`, `target: str` |
 | `push_image` | Push an image to a registry | `image: str` |
 | `image_history` | Show layer history of an image | `image: str` |
+| `search_image` | Search for images in registries | `term: str` |
+| `save_image` | Save an image to a tar archive | `image: str`, `output: str` |
+| `load_image` | Load an image from a tar archive | `path: str` |
+| `prune_images` | Remove unused images | `all: bool` |
 
 ### Containers
 
@@ -283,12 +287,21 @@ http://127.0.0.1:8000/sse
 |---|---|---|
 | `list_containers` | List containers | `all: bool` (include stopped) |
 | `run_container` | Run a container | `image: str`, `args: str` |
+| `start_container` | Start a stopped container | `name: str` |
 | `stop_container` | Stop a running container | `name: str` |
+| `restart_container` | Restart a container | `name: str` |
+| `pause_container` | Pause all processes in a container | `name: str` |
+| `unpause_container` | Resume a paused container | `name: str` |
+| `rename_container` | Rename a container | `name: str`, `new_name: str` |
 | `remove_container` | Remove a container | `name: str`, `force: bool` |
 | `container_logs` | Fetch container logs | `name: str`, `tail: int` |
 | `exec_in_container` | Run a command inside a container | `name: str`, `command: str` |
 | `inspect_container` | Inspect container configuration | `name: str` |
 | `container_stats` | Show resource usage for running containers | `name: str` (empty for all) |
+| `container_top` | Show running processes inside a container | `name: str` |
+| `container_port` | List port mappings of a container | `name: str` |
+| `container_diff` | Show filesystem changes in a container | `name: str` |
+| `copy_to_container` | Copy files between host and container | `src: str`, `dest: str` |
 
 ### Networks
 
@@ -297,6 +310,10 @@ http://127.0.0.1:8000/sse
 | `network_list` | List all networks | — |
 | `network_create` | Create a new network | `name: str` |
 | `network_remove` | Remove a network | `name: str` |
+| `network_inspect` | Inspect a network | `name: str` |
+| `network_connect` | Connect a container to a network | `network: str`, `container: str` |
+| `network_disconnect` | Disconnect a container from a network | `network: str`, `container: str` |
+| `network_prune` | Remove all unused networks | — |
 
 ### Volumes
 
@@ -305,6 +322,8 @@ http://127.0.0.1:8000/sse
 | `volume_list` | List all volumes | — |
 | `volume_create` | Create a new volume | `name: str` |
 | `volume_remove` | Remove a volume | `name: str` |
+| `volume_inspect` | Inspect a volume | `name: str` |
+| `volume_prune` | Remove all unused volumes | — |
 
 ### Pods
 
@@ -313,12 +332,37 @@ http://127.0.0.1:8000/sse
 | `pod_list` | List pods | `all: bool` (include stopped) |
 | `pod_create` | Create a new pod | `name: str` |
 | `pod_remove` | Remove a pod | `name: str`, `force: bool` |
+| `pod_start` | Start a pod and all its containers | `name: str` |
+| `pod_stop` | Stop a pod and all its containers | `name: str` |
+| `pod_restart` | Restart a pod and all its containers | `name: str` |
+| `pod_inspect` | Inspect a pod | `name: str` |
+| `pod_stats` | Show resource usage stats for pods | `name: str` (empty for all) |
+
+### Secrets
+
+| Tool | Description | Parameters |
+|---|---|---|
+| `secret_list` | List all secrets | — |
+| `secret_create` | Create a secret from a literal value | `name: str`, `value: str` |
+| `secret_remove` | Remove a secret | `name: str` |
+| `secret_inspect` | Inspect a secret (value is never revealed) | `name: str` |
+
+### Generate
+
+| Tool | Description | Parameters |
+|---|---|---|
+| `generate_kube` | Generate Kubernetes YAML from a pod or container | `name: str` |
+| `generate_systemd` | Generate a systemd unit file for a container or pod | `name: str` |
 
 ### System
 
 | Tool | Description | Parameters |
 |---|---|---|
 | `system_info` | Podman disk usage and system stats | — |
+| `system_prune` | Remove all unused resources | `all: bool` |
+| `system_events` | Show recent Podman events | `since: str`, `until: str`, `filter: str` |
+| `podman_version` | Show Podman version information | — |
+| `podman_info` | Show detailed host and runtime information | — |
 | `login_registry` | Login to a container registry | `registry: str`, `username: str`, `password: str` |
 
 ---
@@ -444,6 +488,36 @@ def your_tool_name(param: str) -> str:
 ```
 
 No re-registration is needed. Restart your AI client session to pick up the new tool.
+
+---
+
+## Releasing a New Version
+
+1. Bump the version in `pyproject.toml`:
+
+```toml
+[project]
+version = "1.2.3"
+```
+
+2. Commit and push:
+
+```bash
+git add pyproject.toml
+git commit -m "bump version to 1.2.3"
+git push
+```
+
+3. Create and push a tag — this triggers the publish pipeline:
+
+```bash
+git tag v1.2.3
+git push origin v1.2.3
+```
+
+The [GitHub Actions workflow](.github/workflows/publish.yml) will build and publish the new version to PyPI automatically.
+
+> **Note:** PyPI does not allow re-uploading the same version. Always bump the version before tagging.
 
 ---
 
