@@ -439,7 +439,7 @@ Open [server.py](server.py) and add a new function decorated with `@mcp.tool()`:
 ```python
 @mcp.tool()
 def your_tool_name(param: str) -> str:
-    """Clear description — Claude uses this to decide when to call the tool."""
+    """Clear description — the AI assistant uses this to decide when to call the tool."""
     return run(f"<podman subcommand> {param}")
 ```
 
