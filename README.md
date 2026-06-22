@@ -611,9 +611,22 @@ git tag v1.2.3
 git push origin v1.2.3
 ```
 
-The [GitHub Actions workflow](.github/workflows/publish.yml) will build and publish the new version to PyPI automatically.
+The [GitHub Actions workflow](.github/workflows/publish.yml) will run tests, publish to PyPI and create a GitHub Release automatically.
 
 > **Note:** PyPI does not allow re-uploading the same version. Always bump the version before tagging.
+
+### Release Notes
+
+Release notes are generated automatically from commits and PRs merged since the last tag, grouped by label:
+
+| Label | Section |
+|---|---|
+| `enhancement`, `feature` | New Features |
+| `bug`, `fix` | Bug Fixes |
+| `documentation`, `docs` | Documentation |
+| anything else | Other Changes |
+
+No conventional commit format required — just label your PRs on GitHub before merging.
 
 ---
 

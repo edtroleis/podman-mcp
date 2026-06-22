@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "podman-mcp"
-version = "0.2.0"
+version = "0.3.0"
 description = "MCP server that exposes Podman container management as tools for AI assistants"
 readme = "README.md"
 license = { file = "LICENSE" }
